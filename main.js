@@ -17,26 +17,27 @@ let fileData = '';
 let dataArray = []; // Array to hold parsed data
 
 window.onload = function() {
-    const video = document.getElementById("myvideo");    
+    const video = document.getElementById("myvideo");
     video.onloadedmetadata = start_processing;
-    
-    const constraints = { audio: false, video: { facingMode: { exact: "environment" } }  };
+
+    const constraints = { audio: false, video: { facingMode: { exact: "environment" } } };
     navigator.mediaDevices.getUserMedia(constraints)
-    .then((stream) => video.srcObject = stream )
-    .catch((err) => {
-        alert(err.name + ": " + err.message);    
-        video.src = "marker.webm";
-    });
+        .then((stream) => video.srcObject = stream)
+        .catch((err) => {
+            alert(err.name + ": " + err.message);
+            video.src = "marker.webm";
+        });
 
     // Read and parse file data
-    const fs = require('fs');
-    try {
-        fileData = fs.readFileSync('data.txt', 'utf8');
-        dataArray = fileData.split('\n'); // Assuming fileData is newline-separated values
-    } catch (err) {
-        console.error('Error reading file:', err);
-    }
+    fetch('data.txt')
+        .then(response => response.text())
+        .then(data => {
+            dataArray = data.split('\n');
+	    console.log(dataArray);
+        })
+        .catch(err => console.error('Error reading file:', err));
 }
+
 
 function start_processing() {
     const video = document.getElementById("myvideo");
