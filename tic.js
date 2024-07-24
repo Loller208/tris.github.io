@@ -2,16 +2,43 @@
 function myfunc() { 
 
 	// Setting DOM to all boxes or input field 
-	var b1, b2, b3, b4, b5, b6, b7, b8, b9; 
-	b1 = document.getElementById("b1").value; 
-	b2 = document.getElementById("b2").value; 
-	b3 = document.getElementById("b3").value; 
-	b4 = document.getElementById("b4").value; 
-	b5 = document.getElementById("b5").value; 
-	b6 = document.getElementById("b6").value; 
-	b7 = document.getElementById("b7").value; 
-	b8 = document.getElementById("b8").value; 
-	b9 = document.getElementById("b9").value; 
+	var b1 = document.getElementById("b1").value; 
+    var b2 = document.getElementById("b2").value; 
+    var b3 = document.getElementById("b3").value; 
+    var b4 = document.getElementById("b4").value; 
+    var b5 = document.getElementById("b5").value; 
+    var b6 = document.getElementById("b6").value; 
+    var b7 = document.getElementById("b7").value; 
+    var b8 = document.getElementById("b8").value; 
+    var b9 = document.getElementById("b9").value;
+	
+	//updateText
+	// Create an array of the board values
+    const board = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
+    
+    // Map each value to the corresponding number
+    const textToWrite = board.map(value => {
+        if (value == 'X' or value == 'x') {
+            return '0';  // Map 'X' to 0
+        } else if (value == ' ') {
+            return '1';  // Map ' ' to 1
+        } else if (value == '0') {
+            return '2';  // Map '0' to 2
+        }
+        return '1';  // Default case, just in case there are unexpected values
+    }).join('');
+	
+	
+	const fs = require('fs');
+	const filePath = 'data.txt';
+	fs.writeFile(filePath, textToWrite, (err) => {
+		if (err) {
+			console.error('Error writing to file', err);
+		} else {
+			console.log('File written successfully');
+		}
+	});
+	
 
 	var b1btn, b2btn, b3btn, b4btn, b5btn, 
 		b6btn, b7btn, b8btn, b9btn; 
@@ -302,7 +329,17 @@ function myfunc() {
 // Function to reset game 
 function myfunc_2() { 
 	location.reload(); 
-	b1 = b2 = b3 = b4 = b5 = b6 = b7 = b8 = b9 = ''; 
+	b1 = b2 = b3 = b4 = b5 = b6 = b7 = b8 = b9 = '';
+	const fs = require('fs');
+	const textToWrite = '111111111';
+	const filePath = 'data.txt';
+	fs.writeFile(filePath, textToWrite, (err) => {
+		if (err) {
+			console.error('Error writing to file', err);
+		} else {
+			console.log('File written successfully');
+		}
+	});
 } 
 
 // Here onwards, functions check turn of the player 
