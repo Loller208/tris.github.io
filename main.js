@@ -63,8 +63,6 @@ function start_processing() {
     const loader = new GLTFLoader();
     loader.load('table0.glb', model => { 
         container.add(model.scene);
-        loadModels(container, Croci, 0);
-		loadModels(container, Cerchi, 2);
     });*/
 	
 	// jsartoolkit
@@ -128,6 +126,10 @@ function updateData() {
 function updateModels(container) {
     // Clear existing models and reload based on new data
     container.children.forEach(child => container.remove(child));
+	const loader = new GLTFLoader();
+    loader.load('table0.glb', model => { 
+        container.add(model.scene);
+    });
     loadModels(container, Croci, 0);
     loadModels(container, Cerchi, 2);
 }
