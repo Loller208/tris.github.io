@@ -55,7 +55,7 @@ function start_processing() {
     const loader = new GLTFLoader();
     loader.load('table0.glb', model => { 
         container.add(model.scene);
-        //loadModels(container, Croci);
+        loadModels(container, Croci);
 	loadModels(container, Cerchi);
     });
 	/////////////////////////
