@@ -13,19 +13,12 @@ const Cerchi = [
   'Cerchi/Cerchio20.glb', 'Cerchi/Cerchio21.glb', 'Cerchi/Cerchio22.glb'
 ];
 
-let fileData = '';
 let dataArray = []; // Array to hold parsed data
 
 window.onload = function() {
 	// Read and parse file data
-    fetch('data.txt')
-        .then(response => response.text())
-        .then(data => {
-            dataArray = data.split('\n');
-			dataArray = dataArray[0];
-	    	console.log(dataArray);
-        })
-        .catch(err => console.error('Error reading file:', err));
+    updateData();
+	
     const video = document.getElementById("myvideo");
     video.onloadedmetadata = start_processing;
 
@@ -62,17 +55,18 @@ function start_processing() {
     scene.add(light);
 
     // Container + Table
+	
     const container = new THREE.Object3D();
     container.matrixAutoUpdate = false;
     scene.add(container);
-
+	/*
     const loader = new GLTFLoader();
     loader.load('table0.glb', model => { 
         container.add(model.scene);
         loadModels(container, Croci, 0);
-	loadModels(container, Cerchi, 2);
-    });
-	/////////////////////////
+		loadModels(container, Cerchi, 2);
+    });*/
+	
 	// jsartoolkit
     let arLoaded = false;
     let lastdetectiontime = 0;
@@ -93,6 +87,8 @@ function start_processing() {
     // render loop
     function renderloop() {
         requestAnimationFrame( renderloop );
+		updateData();
+		updateModels(container);
         if(arLoaded)
             arController.process(video);
         if(performance.now()-lastdetectiontime < 100)
@@ -102,7 +98,6 @@ function start_processing() {
         renderer.render( scene, camera );
     }
     renderloop();
-	/////////////////////////////////
 }
 
 function loadModels(container, forma, k) {
@@ -117,6 +112,24 @@ function loadModels(container, forma, k) {
             container.add(model.scene);
         });
     });
+}
+
+function updateData() {
+	fetch('data.txt')
+        .then(response => response.text())
+        .then(data => {
+            dataArray = data.split('\n');
+			dataArray = dataArray[0];
+	    	console.log(dataArray);
+        })
+        .catch(err => console.error('Error reading file:', err));
+}
+
+function updateModels(container) {
+    // Clear existing models and reload based on new data
+    container.children.forEach(child => container.remove(child));
+    loadModels(container, Croci, 0);
+    loadModels(container, Cerchi, 2);
 }
 
 // Fix the marker matrix to compensate for Y-up models
