@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'; // Updated path
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const Croci = [
   'Croci/Croce00.glb', 'Croci/Croce01.glb', 'Croci/Croce02.glb',
