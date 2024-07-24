@@ -18,7 +18,7 @@ function myfunc() {
     
     // Map each value to the corresponding number
     const textToWrite = board.map(value => {
-        if (value == 'X' or value == 'x') {
+        if (value == 'X' || value == 'x') {
             return '0';  // Map 'X' to 0
         } else if (value == ' ') {
             return '1';  // Map ' ' to 1
