@@ -22,7 +22,8 @@ window.onload = function() {
         .then(response => response.text())
         .then(data => {
             dataArray = data.split('\n');
-	    console.log(dataArray);
+			dataArray = dataArray[0];
+	    	console.log(dataArray);
         })
         .catch(err => console.error('Error reading file:', err));
     const video = document.getElementById("myvideo");
