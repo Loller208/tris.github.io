@@ -106,16 +106,6 @@ function start_processing() {
 
 function loadModels(container, forma, k) {
     const loader = new GLTFLoader();
-    forma.forEach(path => {
-        loader.load(path, model => {
-            if(k==****)model.scene.visible = false; // Hide the model
-            container.add(model.scene);
-        });
-    });
-}
-
-function loadModels(container, forma, k) {
-    const loader = new GLTFLoader();
     forma.forEach((path, index) => {
         loader.load(path, model => {
             if (dataArray[index] && parseInt(dataArray[index], 10) == k) {
