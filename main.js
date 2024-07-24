@@ -7,6 +7,12 @@ const Croci = [
   'Croci/Croce20.glb', 'Croci/Croce21.glb', 'Croci/Croce22.glb'
 ];
 
+const Cerchi = [
+  'Cerchi/Cerchio00.glb', 'Cerchi/Cerchio01.glb', 'Cerchi/Cerchio02.glb',
+  'Cerchi/Cerchio10.glb', 'Cerchi/Cerchio11.glb', 'Cerchi/Cerchio12.glb',
+  'Cerchi/Cerchio20.glb', 'Cerchi/Cerchio21.glb', 'Cerchi/Cerchio22.glb'
+];
+
 window.onload = function() {
     const video = document.getElementById("myvideo");    
     video.onloadedmetadata = start_processing;
