@@ -17,6 +17,14 @@ let fileData = '';
 let dataArray = []; // Array to hold parsed data
 
 window.onload = function() {
+	// Read and parse file data
+    fetch('data.txt')
+        .then(response => response.text())
+        .then(data => {
+            dataArray = data.split('\n');
+	    console.log(dataArray);
+        })
+        .catch(err => console.error('Error reading file:', err));
     const video = document.getElementById("myvideo");
     video.onloadedmetadata = start_processing;
 
@@ -27,15 +35,6 @@ window.onload = function() {
             alert(err.name + ": " + err.message);
             video.src = "marker.webm";
         });
-
-    // Read and parse file data
-    fetch('data.txt')
-        .then(response => response.text())
-        .then(data => {
-            dataArray = data.split('\n');
-	    console.log(dataArray);
-        })
-        .catch(err => console.error('Error reading file:', err));
 }
 
 
