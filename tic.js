@@ -1,4 +1,6 @@
-// Function called whenever user tab on any box 
+
+let boards='111111111';
+
 function myfunc() { 
 
 	// Setting DOM to all boxes or input field 
@@ -27,9 +29,11 @@ function myfunc() {
         }
         return '1';  // Default case, just in case there are unexpected values
     }).join('');
+
+	boards = textToWrite;
 	
 	
-	const fs = require('fs');
+	/*const fs = require('fs');
 	const filePath = 'data.txt';
 	fs.writeFile(filePath, textToWrite, (err) => {
 		if (err) {
@@ -37,7 +41,7 @@ function myfunc() {
 		} else {
 			console.log('File written successfully');
 		}
-	});
+	});*/
 	
 
 	var b1btn, b2btn, b3btn, b4btn, b5btn, 
@@ -329,17 +333,8 @@ function myfunc() {
 // Function to reset game 
 function myfunc_2() { 
 	location.reload(); 
-	b1 = b2 = b3 = b4 = b5 = b6 = b7 = b8 = b9 = '';
-	const fs = require('fs');
-	const textToWrite = '111111111';
-	const filePath = 'data.txt';
-	fs.writeFile(filePath, textToWrite, (err) => {
-		if (err) {
-			console.error('Error writing to file', err);
-		} else {
-			console.log('File written successfully');
-		}
-	});
+	b1 = b2 = b3 = b4 = b5 = b6 = b7 = b8 = b9 = ' ';
+	boards='111111111';
 } 
 
 // Here onwards, functions check turn of the player 
@@ -461,3 +456,29 @@ function myfunc_11() {
 		flag = 1; 
 	} 
 } 
+
+
+// getBoard.js
+
+function getBoard() {
+    // Retrieving values from input fields
+    const values = [
+        'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9'
+    ].map(id => document.getElementById(id)?.value || ' ');
+
+    // Mapping values to corresponding numbers
+    const textToWrite = values.map(value => {
+        if (value.toUpperCase() === 'X') {
+            return '0';  // Map 'X' to '0'
+        } else if (value === ' ') {
+            return '1';  // Map ' ' (space) to '1'
+        } else if (value === '0') {
+            return '2';  // Map '0' to '2'
+        }
+        return '1';  // Default case for unexpected values
+    }).join('');
+
+    return textToWrite;
+}
+
+export { getBoard };
