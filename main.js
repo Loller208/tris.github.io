@@ -83,19 +83,40 @@ function start_processing() {
         arLoaded = true;
     }
     // render loop
-    function renderloop() {
-        requestAnimationFrame( renderloop );
-		updateData();
-		updateModels(container);
-        if(arLoaded)
-            arController.process(video);
-        if(performance.now()-lastdetectiontime < 100)
-            container.visible = true;
-        else
-            container.visible = false;
-        renderer.render( scene, camera );
-    }
-    renderloop();
+    let lastUpdateTime = performance.now(); // Initialize with the current time
+
+	function renderloop() {
+    	// Request the next animation frame
+    	requestAnimationFrame(renderloop);
+
+    	// Update data and AR controller
+    	updateData();
+    	if (arLoaded) {
+        	arController.process(video);
+    	}
+
+    	// Determine if 100 milliseconds have passed
+		const currentTime = performance.now();
+    	if (currentTime - lastUpdateTime >= 100) {
+        	// Update models and reset the last update time
+        	updateModels(container);
+        	lastUpdateTime = currentTime;
+    	}
+
+    	// Toggle visibility based on time since last detection
+    	if (currentTime - lastdetectiontime < 100) {
+    	    container.visible = true;
+    	} else {
+        	container.visible = false;
+    	}
+
+    	// Render the scene
+    	renderer.render(scene, camera);
+		}
+
+	// Start the rendering loop
+	renderloop();
+
 }
 
 function loadModels(container, forma, k) {
