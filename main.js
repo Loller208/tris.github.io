@@ -13,11 +13,13 @@ const Cerchi = [
   'Cerchi/Cerchio20.glb', 'Cerchi/Cerchio21.glb', 'Cerchi/Cerchio22.glb'
 ];
 
-var fileData = '';
+let fileData = '';
+let dataArray = []; // Array to hold parsed data
 
 window.onload = function() {
     const video = document.getElementById("myvideo");    
     video.onloadedmetadata = start_processing;
+    
     const constraints = { audio: false, video: { facingMode: { exact: "environment" } }  };
     navigator.mediaDevices.getUserMedia(constraints)
     .then((stream) => video.srcObject = stream )
@@ -25,13 +27,15 @@ window.onload = function() {
         alert(err.name + ": " + err.message);    
         video.src = "marker.webm";
     });
-	const fs = require('fs');
 
-	try {
-  	fileData = fs.readFileSync('data.txt', 'utf8');
-	} catch (err) {
-  	console.error('Error reading file:', err);
-	}
+    // Read and parse file data
+    const fs = require('fs');
+    try {
+        fileData = fs.readFileSync('data.txt', 'utf8');
+        dataArray = fileData.split('\n'); // Assuming fileData is newline-separated values
+    } catch (err) {
+        console.error('Error reading file:', err);
+    }
 }
 
 function start_processing() {
@@ -64,8 +68,8 @@ function start_processing() {
     const loader = new GLTFLoader();
     loader.load('table0.glb', model => { 
         container.add(model.scene);
-        loadModels(container, Croci);
-	loadModels(container, Cerchi);
+        loadModels(container, Croci, 0);
+	loadModels(container, Cerchi, 2);
     });
 	/////////////////////////
 	// jsartoolkit
@@ -100,11 +104,25 @@ function start_processing() {
 	/////////////////////////////////
 }
 
-function loadModels(container, forma) {
+function loadModels(container, forma, k) {
     const loader = new GLTFLoader();
     forma.forEach(path => {
         loader.load(path, model => {
-            model.scene.visible = false; // Hide the model
+            if(k==****)model.scene.visible = false; // Hide the model
+            container.add(model.scene);
+        });
+    });
+}
+
+function loadModels(container, forma, k) {
+    const loader = new GLTFLoader();
+    forma.forEach((path, index) => {
+        loader.load(path, model => {
+            if (dataArray[index] && parseInt(dataArray[index], 10) == k) {
+                model.scene.visible = true; // Show the model if condition is met
+            } else {
+                model.scene.visible = false; // Hide the model otherwise
+            }
             container.add(model.scene);
         });
     });
