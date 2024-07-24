@@ -97,7 +97,7 @@ function start_processing() {
 
     	// Determine if 100 milliseconds have passed
 		const currentTime = performance.now();
-    	if (currentTime - lastUpdateTime >= 100) {
+    	if (currentTime - lastUpdateTime >= 1000) {
         	// Update models and reset the last update time
         	updateModels(container);
         	lastUpdateTime = currentTime;
