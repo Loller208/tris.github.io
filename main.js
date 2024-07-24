@@ -56,7 +56,7 @@ function start_processing() {
     loader.load('table0.glb', model => { 
         container.add(model.scene);
         // Load Croci models after the table model is added
-        loadCrociModels(container);
+        loadModels(container, Croci);
     });
 	/////////////////////////
 	// jsartoolkit
@@ -91,9 +91,9 @@ function start_processing() {
 	/////////////////////////////////
 }
 
-function loadCrociModels(container) {
+function loadModels(container, forma) {
     const loader = new GLTFLoader();
-    Croci.forEach(path => {
+    forma.forEach(path => {
         loader.load(path, model => {
             container.add(model.scene); // No positioning, uses model's original position
         });
