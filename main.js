@@ -57,6 +57,7 @@ function start_processing() {
         container.add(model.scene);
         // Load Croci models after the table model is added
         loadModels(container, Croci);
+	loadModels(container, Cerchi);
     });
 	/////////////////////////
 	// jsartoolkit
