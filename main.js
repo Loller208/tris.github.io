@@ -13,6 +13,8 @@ const Cerchi = [
   'Cerchi/Cerchio20.glb', 'Cerchi/Cerchio21.glb', 'Cerchi/Cerchio22.glb'
 ];
 
+var fileData = '';
+
 window.onload = function() {
     const video = document.getElementById("myvideo");    
     video.onloadedmetadata = start_processing;
@@ -23,6 +25,13 @@ window.onload = function() {
         alert(err.name + ": " + err.message);    
         video.src = "marker.webm";
     });
+	const fs = require('fs');
+
+	try {
+  	fileData = fs.readFileSync('data.txt', 'utf8');
+	} catch (err) {
+  	console.error('Error reading file:', err);
+	}
 }
 
 function start_processing() {
