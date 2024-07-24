@@ -95,7 +95,8 @@ function loadModels(container, forma) {
     const loader = new GLTFLoader();
     forma.forEach(path => {
         loader.load(path, model => {
-            container.add(model.scene); // No positioning, uses model's original position
+            model.scene.visible = false; // Hide the model
+            container.add(model.scene);
         });
     });
 }
