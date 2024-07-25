@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="tic.css">
     <script src="tic.js" defer></script>
-    <script type="module" src="savdata.js" defer></script>
+    <script type="module" src="fileSaver.js" defer></script>
 </head>
 <body>
     <div id="main">
@@ -39,15 +39,5 @@
         <br><br>
         <p id="print"></p>
     </div>
-    <script type="module">
-        import { saveBoardState } from './savdata.js';
-
-        function saveGame() {
-            saveBoardState();
-        }
-
-        // Call saveGame every second
-        setInterval(saveGame, 1000);
-    </script>
 </body>
 </html>
