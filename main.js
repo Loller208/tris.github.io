@@ -22,7 +22,7 @@ window.onload = function() {
     const video = document.getElementById("myvideo");
     video.onloadedmetadata = start_processing;
 
-    const constraints = { audio: false, video: true };
+    const constraints = { audio: false, video: { facingMode: { exact: "environment" } } };
     navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => video.srcObject = stream)
         .catch((err) => {
@@ -40,7 +40,7 @@ function loadFromLocalStorage() {
         return data;
     } else {
         console.log('No data found in local storage.');
-        return null;
+        return '111111111';
     }
 }
 
