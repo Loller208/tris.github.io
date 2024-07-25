@@ -32,12 +32,14 @@ function myfunc() {
 
 	boards = textToWrite;
 
-	const saveFile = require('./fileSaver');
-
 	const filename = 'data.txt';
 	const content = boards;
-
-	saveFile(filename, content);
+  
+  	// Create a Blob from the content
+  	const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  	
+  	// Use FileSaver.js to save the file
+  	saveAs(blob, filename);
 	
 
 	var b1btn, b2btn, b3btn, b4btn, b5btn, 
@@ -331,12 +333,14 @@ function myfunc_2() {
 	location.reload(); 
 	b1 = b2 = b3 = b4 = b5 = b6 = b7 = b8 = b9 = ' ';
 	boards='111111111';
-	const saveFile = require('./fileSaver');
-
 	const filename = 'data.txt';
 	const content = boards;
-
-	saveFile(filename, content);
+  
+  	// Create a Blob from the content
+  	const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  	
+  	// Use FileSaver.js to save the file
+  	saveAs(blob, filename);
 } 
 
 // Here onwards, functions check turn of the player 
