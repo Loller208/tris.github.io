@@ -16,7 +16,7 @@ const Cerchi = [
 let dataArray = []; // Array to hold parsed data
 
 window.onload = function() {
-	// Read and parse file data
+    // Load data
     updateData();
 	
     const video = document.getElementById("myvideo");
@@ -31,6 +31,36 @@ window.onload = function() {
         });
 }
 
+function loadFromLocalStorage() {
+    const filename = 'data.txt';
+    const data = localStorage.getItem(filename);
+
+    if (data) {
+        console.log('Loaded data from local storage:', data);
+        return data;
+    } else {
+        console.log('No data found in local storage.');
+        return null;
+    }
+}
+
+function updateData() {
+    const localData = loadFromLocalStorage();
+    if (localData) {
+        dataArray = localData.split('');
+        console.log('Data loaded from local storage:', dataArray);
+    } else {
+        fetch('data.txt')
+            .then(response => response.text())
+            .then(data => {
+                dataArray = data.split('');
+                console.log('Data fetched from server:', dataArray);
+                // Optionally save this data to local storage
+                localStorage.setItem('data.txt', data);
+            })
+            .catch(err => console.error('Error reading file:', err));
+    }
+}
 
 function start_processing() {
     const video = document.getElementById("myvideo");
@@ -55,68 +85,62 @@ function start_processing() {
     scene.add(light);
 
     // Container + Table
-	
     const container = new THREE.Object3D();
     container.matrixAutoUpdate = false;
     scene.add(container);
-	/*
-    const loader = new GLTFLoader();
-    loader.load('table0.glb', model => { 
-        container.add(model.scene);
-    });*/
-	
-	// jsartoolkit
+
+    // jsartoolkit
     let arLoaded = false;
     let lastdetectiontime = 0;
     let kanjiID;
     const arController = new ARController(video, 'camera_para.dat');
     arController.onload = () => {
-        camera.projectionMatrix.fromArray( arController.getCameraMatrix() );
+        camera.projectionMatrix.fromArray(arController.getCameraMatrix());
         arController.setPatternDetectionMode(artoolkit.AR_TEMPLATE_MATCHING_COLOR);
-        arController.loadMarker('kanji.patt', id => kanjiID = id );
+        arController.loadMarker('kanji.patt', id => kanjiID = id);
         arController.addEventListener('getMarker', ev => {
-            if(ev.data.marker.idPatt == kanjiID){
-                fixMatrix(container.matrix, ev.data.matrixGL_RH );
+            if (ev.data.marker.idPatt == kanjiID) {
+                fixMatrix(container.matrix, ev.data.matrixGL_RH);
                 lastdetectiontime = performance.now();
             }
         });
         arLoaded = true;
     }
-    // render loop
+
+    // Render loop
     let lastUpdateTime = performance.now(); // Initialize with the current time
 
-	function renderloop() {
-    	// Request the next animation frame
-    	requestAnimationFrame(renderloop);
+    function renderloop() {
+        // Request the next animation frame
+        requestAnimationFrame(renderloop);
 
-    	// Update data and AR controller
-    	updateData();
-    	if (arLoaded) {
-        	arController.process(video);
-    	}
+        // Update data and AR controller
+        updateData();
+        if (arLoaded) {
+            arController.process(video);
+        }
 
-    	// Determine if 100 milliseconds have passed
-		const currentTime = performance.now();
-    	if (currentTime - lastUpdateTime >= 1000) {
-        	// Update models and reset the last update time
-        	updateModels(container);
-        	lastUpdateTime = currentTime;
-    	}
+        // Determine if 100 milliseconds have passed
+        const currentTime = performance.now();
+        if (currentTime - lastUpdateTime >= 1000) {
+            // Update models and reset the last update time
+            updateModels(container);
+            lastUpdateTime = currentTime;
+        }
 
-    	// Toggle visibility based on time since last detection
-    	if (currentTime - lastdetectiontime < 100) {
-    	    container.visible = true;
-    	} else {
-        	container.visible = false;
-    	}
+        // Toggle visibility based on time since last detection
+        if (currentTime - lastdetectiontime < 100) {
+            container.visible = true;
+        } else {
+            container.visible = false;
+        }
 
-    	// Render the scene
-    	renderer.render(scene, camera);
-		}
+        // Render the scene
+        renderer.render(scene, camera);
+    }
 
-	// Start the rendering loop
-	renderloop();
-
+    // Start the rendering loop
+    renderloop();
 }
 
 function loadModels(container, forma, k) {
@@ -133,22 +157,11 @@ function loadModels(container, forma, k) {
     });
 }
 
-function updateData() {
-	fetch('data.txt')
-        .then(response => response.text())
-        .then(data => {
-            dataArray = data.split('\n');
-			dataArray = dataArray[0];
-	    	console.log(dataArray);
-        })
-        .catch(err => console.error('Error reading file:', err));
-}
-
 function updateModels(container) {
     // Clear existing models and reload based on new data
     container.children.forEach(child => container.remove(child));
-	const loader = new GLTFLoader();
-    loader.load('table0.glb', model => { 
+    const loader = new GLTFLoader();
+    loader.load('table0.glb', model => {
         container.add(model.scene);
     });
     loadModels(container, Croci, 0);
