@@ -5,6 +5,7 @@ function saveToLocalStorage() {
     const filename = 'data.txt';
     // Save the current state of boards to local storage
     localStorage.setItem(filename, boards);
+	console.log(boards);
 }
 
 function myfunc() { 
