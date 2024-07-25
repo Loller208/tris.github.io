@@ -1,10 +1,11 @@
 
 let boards='111111111';
 
-function saveToLocalStorage() {
+function saveToLocalStorage(textToWrite) {
     const filename = 'data.txt';
+	const a  = textToWrite;
     // Save the current state of boards to local storage
-    localStorage.setItem(filename, boards);
+    localStorage.setItem(filename, a);
 	console.log(boards);
 }
 
@@ -38,7 +39,7 @@ function myfunc() {
     }).join('');
 
 	boards = textToWrite;
-	saveToLocalStorage();
+	saveToLocalStorage(textToWrite);
 	
 
 	var b1btn, b2btn, b3btn, b4btn, b5btn, 
